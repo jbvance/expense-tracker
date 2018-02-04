@@ -2,6 +2,8 @@
 .vscode/
 node_modules/
 public/dist/
+.env.test
+.env.development
 build
 .DS_Store
 *.tgz
