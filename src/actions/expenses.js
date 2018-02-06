@@ -51,7 +51,6 @@ export const editExpense = (id, updates) => ({
 });
 
 export const startEditExpense = (id, updates) => {
-  console.log("UPDATES", updates);
   return (dispatch) => {
     // update the expense by id from firebase
     // and dispatch the EDIT_EXPENSE action so redux store is updated   
