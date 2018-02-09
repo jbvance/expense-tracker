@@ -1,9 +1,36 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import Modal from 'react-modal';
 import { startEditExpense, startRemoveExpense } from '../actions/expenses';
 import ExpenseForm from './ExpenseForm';
 
+const customStyles = {
+  content: {
+    top: '50%',
+    left: '50%',
+    right: 'auto',
+    bottom: 'auto',
+    marginRight: '-50%',
+    transform: 'translate(-50%, -50%)'
+  }
+};
+
 export class EditExpensePage extends Component {
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      modalIsOpen: false
+    };
+  }
+
+  openModal = () => {
+    this.setState({ modalIsOpen: true });
+  }
+
+  closeModal = () => {
+    this.setState({ modalIsOpen: false });
+  }
 
   onSubmit = (expense) => {
     this.props.startEditExpense(this.props.expense.id, expense);
@@ -18,6 +45,20 @@ export class EditExpensePage extends Component {
   render() {
     return (
       <div>
+        <Modal
+          isOpen={this.state.modalIsOpen}
+          onAfterOpen={this.afterOpenModal}
+          onRequestClose={this.closeModal}
+          style={customStyles}
+          contentLabel="Example Modal"
+        >
+          <h2>Remove this Expense?</h2>
+          <div className="modal__content">          
+          <button className="button" onClick={this.onRemove}>Remove</button>
+          <button className="button" onClick={this.closeModal}>Cancel</button>
+          </div>
+        </Modal>
+
         <div className="page-header">
           <div className="content-container">
             <h1 className="page-header__title">Edit Expense</h1>
@@ -28,7 +69,7 @@ export class EditExpensePage extends Component {
             expense={this.props.expense}
             onSubmit={this.onSubmit}
           />
-          <button className="button button--secondary" onClick={this.onRemove}>Remove Expense</button>
+          <button className="button button--secondary" onClick={this.openModal}>Remove Expense</button>
         </div>
       </div>
     );
